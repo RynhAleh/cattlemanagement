@@ -1,0 +1,10 @@
+.venv/
+.idea/
+.vscode/
+__pycache__/
+*.py[cod]
+*.class
+*.iml
+node_modules/
+npm-debug.log
+yarn-error.log
