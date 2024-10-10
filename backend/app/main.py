@@ -5,6 +5,12 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+origins = [
+    "https://ringoleg.site",
+    "https://www.ringoleg.site"
+]
+
+
 # Добавляем CORS middleware
 app.add_middleware(
     CORSMiddleware,
