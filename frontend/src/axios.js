@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
+//  baseURL: 'https://www.ringoleg.site/api',
   baseURL: process.env.VUE_APP_API_URL,
   headers: {
     'Content-Type': 'application/json'

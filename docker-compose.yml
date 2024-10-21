@@ -15,10 +15,11 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./frontend/src:/app/src
+    - ./frontend/src:/app/src
+    - ./frontend/dist:/app/dist
     networks:
       - cattlenetwork
-
+      
 networks:
   cattlenetwork:
     driver: bridge

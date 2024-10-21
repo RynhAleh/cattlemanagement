@@ -4,7 +4,7 @@
     <form @submit.prevent="handleLogin">
       <div>
         <label for="username">Имя пользователя:</label>
-        <input type="text" v-model="username" id="username" required />
+        <input type="text" v-model="username" id="username" required autocomplete="username"/>
       </div>
       <div>
         <label for="password">Пароль:</label>
