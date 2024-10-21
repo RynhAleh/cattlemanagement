@@ -13,13 +13,13 @@ def get_session_local():
     yield SessionLocal()
 
 
-@router.get("/cattle", response_model=list[CattleSchema])
+@router.get("/api/cattle", response_model=list[CattleSchema])
 async def read_cattle(db: Session = Depends(get_session_local)):
     cattle_records = db.query(Cattle).all()
     return cattle_records
 
 
-@router.post("/cattle", response_model=CattleSchema)
+@router.post("/api/cattle", response_model=CattleSchema)
 def create_cattle(cattle: CattleSchema, db: Session = Depends(get_session_local)):
     # Создаем запись о животном на основе переданных данных
     db_cattle = Cattle(name=cattle.name, color=cattle.color, breed=cattle.breed, birthdate=cattle.birthdate)
@@ -29,7 +29,7 @@ def create_cattle(cattle: CattleSchema, db: Session = Depends(get_session_local)
     return db_cattle
 
 
-@router.post("/register", response_model=UserSchema)
+@router.post("/api/register", response_model=UserSchema)
 async def register(user: UserSchema, db: Session = Depends(get_session_local)):
     existing_user = db.query(User).filter_by(username=user.username).first()
     if existing_user:
@@ -37,7 +37,7 @@ async def register(user: UserSchema, db: Session = Depends(get_session_local)):
     return create_user(db=db, user=user)
 
 
-@router.post("/login")
+@router.post("/api/login")
 async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_session_local)):
     user = db.query(User).filter_by(username=form_data.username).first()
     if not user or not verify_password(form_data.password, user.hashed_password):
