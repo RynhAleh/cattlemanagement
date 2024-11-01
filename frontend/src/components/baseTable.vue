@@ -114,11 +114,9 @@
 <script>
 import { markRaw } from 'vue';
 export default {
-  async mounted() {
-    // Задержка на 2 секунды
-    await new Promise(resolve => setTimeout(resolve, 2000));
+  mounted() {
     this.iMounted = true;
-		this.$emit("child1-mounted");
+		this.$emit("child-mounted"); //child1
   },
   props: {
   	table: String,

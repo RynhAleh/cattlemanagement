@@ -1,6 +1,6 @@
 <template>
-  <div :hidden="!cMounted" class="modal-overlay">
-		<div class="modal-content" ref="modal" :style="randomPos">
+  <div class="modal-overlay">
+		<div :hidden="!cMounted" class="modal-content" ref="modal" :style="randomPos">
 			<div style="">
 				<div class="modal-header" ref="header"></div>
 				<button class="close-button" @click="close">×</button>

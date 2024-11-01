@@ -1,7 +1,7 @@
 <template>
 
 	<div v-if="status > 0" class="table-container" style="min-width: 800px; max-width: 1500px;">
-		<baseTable :data="itemsWithClasses" :columns="tableColumns" :status="status" :table="table" @child1-mounted="cMounted = true"/>
+		<baseTable :data="itemsWithClasses" :columns="tableColumns" :status="status" :table="table" @child-mounted="cMounted = true"/><!--child1-->
 	</div>
 </template>
 
