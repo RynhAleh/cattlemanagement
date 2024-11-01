@@ -9,9 +9,9 @@
 			</li>
 		</ul>
 	</div>
-	<div class="content">
+	<div :hidden="!cMounted" class="content">
 		<div class="common-container">
-			<component :is="selectedSection"></component>
+			<component :is="selectedSection" @child-mounted="cMounted = true"></component>
 		</div>
 	</div>
 </template>
@@ -27,6 +27,7 @@ export default {
   },
   data() {
     return {
+    	cMounted: false,
       selectedSection: 'cattleTable', // Компонент по умолчанию
       sections: {
         'cattleTable': 'Список КРС',

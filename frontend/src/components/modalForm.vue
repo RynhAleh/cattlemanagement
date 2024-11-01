@@ -1,12 +1,12 @@
 <template>
-  <div class="modal-overlay">
+  <div :hidden="!cMounted" class="modal-overlay">
 		<div class="modal-content" ref="modal" :style="randomPos">
 			<div style="">
 				<div class="modal-header" ref="header"></div>
 				<button class="close-button" @click="close">×</button>
 			</div>
 			<slot>
-				<component :is="innerComponent" />
+				<component :is="innerComponent" @child-mounted="cMounted = true" />
 			</slot>
 		</div>
 	</div>
@@ -19,6 +19,7 @@ export default {
 		return {
 			innerComponent: null,
 			randomPos: '',
+			cMounted: false,
 		};
 	},
   props: {
@@ -28,6 +29,7 @@ export default {
 		this.getInnerComponent();
 		this.randomPos = `top:${80 + Math.floor(Math.random() * 21)}px;left:${230 + Math.floor(Math.random() * 21)}px;`;
 		this.enableDrag(); // Вызываем функцию перетаскивания
+		this.iMounted = true;
 	},
   methods: {
     close() {

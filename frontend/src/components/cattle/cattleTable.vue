@@ -1,7 +1,7 @@
 <template>
 
 	<div v-if="status > 0" class="table-container" style="min-width: 800px; max-width: 1500px;">
-		<baseTable :data="itemsWithClasses" :columns="tableColumns" :status="status" :table="table"/>
+		<baseTable :data="itemsWithClasses" :columns="tableColumns" :status="status" :table="table" @child-mounted="cMounted = true"/>
 	</div>
 </template>
 
@@ -10,11 +10,21 @@ import baseTable from '../baseTable.vue';
 import dataLoader from '@/utils/dataLoader';
 
 export default {
+	watch: {
+		iMounted(n, o) {
+			if(n && this.cMounted) this.$emit("child-mounted");
+		},
+		cMounted(n, o) {
+			if(n && this.iMounted) this.$emit("child-mounted");
+		},
+	},
   components: {
     baseTable,
   },
   data() {
     return {
+    	iMounted: false,
+    	cMounted: false,
     	table: 'cattle',
     	status: 0,
       ref: (() => {const date = new Date(); date.setDate(date.getDate() - 365*3); return date;})(),  // тек.дата - 3г
@@ -39,7 +49,8 @@ export default {
 				console.error('Не удалось загрузить данные');
 			}
 		});
-	},
+		this.iMounted = true;
+  },
   computed: {
     itemsWithClasses() {
       return this.tableData.map(item => {

@@ -1,110 +1,112 @@
 <template>
-  <div>
-    <button @click="getModalComponent">Добавить запись</button>
-    <component :is="modalComponent" v-if="isModalPushed" @close="modalComponent = null" :table="table" />
-  </div>
-	<div class="filter-pagination">
+	<div>
 		<div>
-			<table>
-				<tbody>
-					<tr>
-						<td>
-							<select class="mg-5" v-model="selectedField" @change="filterData">
-								<option value="all">(любое поле)</option>
-								<option v-for="column in columns" :key="column.key" :value="column.key">
-									{{ column.label }}
-								</option>
-							</select>
-						</td>
-						<td>
-							<div v-if="currentFilterType === 'string'">
-								<input class="txt-flt" type="text" v-model="filterQuery" @input="filterData" placeholder="Поиск..." />
-							</div>
-							<div v-if="currentFilterType === 'number'">
-								<input class="num-flt" type="number" v-model="filterRange.min" @input="filterData" placeholder="С..." />
-								-
-								<input class="num-flt" type="number" v-model="filterRange.max" @input="filterData" placeholder="По..." />
-							</div>
-							<div v-if="currentFilterType === 'date'">
-								<input class="dt-flt" type="date" v-model="filterDateRange.from" @input="filterData" />
-								-
-								<input class="dt-flt" type="date" v-model="filterDateRange.to" @input="filterData" />
-							</div>
-						</td>
-						<td>
-							<select v-model="logicOperator">
-								<option value="x"> </option>
-								<option value="AND">И</option>
-								<option value="OR">ИЛИ</option>
-							</select>
-						</td>
-						<td class="mg-5" style="color: gray;">{{ status > 1 ? 'Записей: ' + filteredData.length + '.' : '' }}</td>
-					</tr>
-					<tr v-if="isSecondFilterActive">
-						<td>
-							<select class="mg-5" v-model="selectedSecondField" @change="filterData">
-								<option value="all">(любое поле)</option>
-								<option v-for="column in columns" :key="column.key" :value="column.key">
-									{{ column.label }}
-								</option>
-							</select>
-						</td>
-						<td>
-							<div v-if="currentSecondFilterType === 'string'">
-								<input class="txt-flt" type="text" v-model="secondFilterQuery" @input="filterData" placeholder="Поиск..." />
-							</div>
-							<div v-if="currentSecondFilterType === 'number'">
-								<input class="num-flt" type="number" v-model="secondFilterRange.min" @input="filterData" placeholder="С..." />
-								-
-								<input class="num-flt" type="number" v-model="secondFilterRange.max" @input="filterData" placeholder="По..." />
-							</div>
-							<div v-if="currentSecondFilterType === 'date'">
-								<input class="dt-flt" type="date" v-model="secondFilterDateRange.from" @input="filterData" />
-								-
-								<input class="dt-flt" type="date" v-model="secondFilterDateRange.to" @input="filterData" />
-							</div>
-						</td>
-						<td></td>
-						<td></td>
-					</tr>
-				</tbody>
-			</table>
+			<button @click="getModalComponent">Добавить запись</button>
+			<component :is="modalComponent" v-if="isModalPushed" @close="modalComponent = null" :table="table" />
 		</div>
-	</div>
-	<table class="custom-table">
-		<thead>
-			<tr>
-				<th v-for="column in columns" :key="column.key" @click="sortData(column.key)">
-					{{ column.label }}
-					<span v-if="sortKey === column.key">
-						{{ sortOrder === 'asc' ? '▲' : sortOrder === 'desc' ? '▼' : '' }}
-					</span>
-				</th>
-			</tr>
-		</thead>
-		<tbody>
-      <tr v-for="row in paginatedData" :key="row.id" v-bind="row.dictClass['_'] ? { class: row.dictClass['_'] } : {}">
-        <td v-for="column in columns" :key="column.key" v-bind="row.dictClass[column.key] ? { class: row.dictClass[column.key] } : {}">
-          {{ row[column.key] }}
-        </td>
-      </tr>
-		</tbody>
-	</table>
-	<div class="info-pagination">
-		<div>
-			<button class="btn-flt" @click="firstPage" :disabled="currentPage === 1"><<</button>
-			<button class="btn-flt" @click="prevPage" :disabled="currentPage === 1"><</button>
-			<span class="page-from-pages">{{ currentPage }} из {{ totalPages }}</span>
-			<button class="btn-flt" @click="nextPage" :disabled="currentPage === totalPages">></button>
-			<button class="btn-flt" @click="lastPage" :disabled="currentPage === totalPages">>></button>
-			<label class="mg-5" for="rowsPerPage">Записей на стр.:</label>
-			<select v-model="rowsPerPage" @change="normalizePage">
-				<option value=20>20</option>
-				<option value=50>50</option>
-				<option value=100>100</option>
-				<option value=1000>1000</option>
-				<option value=99999999>(все)</option>
-			</select>
+		<div class="filter-pagination">
+			<div>
+				<table>
+					<tbody>
+						<tr>
+							<td>
+								<select class="mg-5" v-model="selectedField" @change="filterData">
+									<option value="all">(любое поле)</option>
+									<option v-for="column in columns" :key="column.key" :value="column.key">
+										{{ column.label }}
+									</option>
+								</select>
+							</td>
+							<td>
+								<div v-if="currentFilterType === 'string'">
+									<input class="txt-flt" type="text" v-model="filterQuery" @input="filterData" placeholder="Поиск..." />
+								</div>
+								<div v-if="currentFilterType === 'number'">
+									<input class="num-flt" type="number" v-model="filterRange.min" @input="filterData" placeholder="С..." />
+									-
+									<input class="num-flt" type="number" v-model="filterRange.max" @input="filterData" placeholder="По..." />
+								</div>
+								<div v-if="currentFilterType === 'date'">
+									<input class="dt-flt" type="date" v-model="filterDateRange.from" @input="filterData" />
+									-
+									<input class="dt-flt" type="date" v-model="filterDateRange.to" @input="filterData" />
+								</div>
+							</td>
+							<td>
+								<select v-model="logicOperator">
+									<option value="x"> </option>
+									<option value="AND">И</option>
+									<option value="OR">ИЛИ</option>
+								</select>
+							</td>
+							<td class="mg-5" style="color: gray;">{{ status > 1 ? 'Записей: ' + filteredData.length + '.' : '' }}</td>
+						</tr>
+						<tr v-if="isSecondFilterActive">
+							<td>
+								<select class="mg-5" v-model="selectedSecondField" @change="filterData">
+									<option value="all">(любое поле)</option>
+									<option v-for="column in columns" :key="column.key" :value="column.key">
+										{{ column.label }}
+									</option>
+								</select>
+							</td>
+							<td>
+								<div v-if="currentSecondFilterType === 'string'">
+									<input class="txt-flt" type="text" v-model="secondFilterQuery" @input="filterData" placeholder="Поиск..." />
+								</div>
+								<div v-if="currentSecondFilterType === 'number'">
+									<input class="num-flt" type="number" v-model="secondFilterRange.min" @input="filterData" placeholder="С..." />
+									-
+									<input class="num-flt" type="number" v-model="secondFilterRange.max" @input="filterData" placeholder="По..." />
+								</div>
+								<div v-if="currentSecondFilterType === 'date'">
+									<input class="dt-flt" type="date" v-model="secondFilterDateRange.from" @input="filterData" />
+									-
+									<input class="dt-flt" type="date" v-model="secondFilterDateRange.to" @input="filterData" />
+								</div>
+							</td>
+							<td></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<table class="custom-table">
+			<thead>
+				<tr>
+					<th v-for="column in columns" :key="column.key" @click="sortData(column.key)">
+						{{ column.label }}
+						<span v-if="sortKey === column.key">
+							{{ sortOrder === 'asc' ? '▲' : sortOrder === 'desc' ? '▼' : '' }}
+						</span>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for="row in paginatedData" :key="row.id" v-bind="row.dictClass['_'] ? { class: row.dictClass['_'] } : {}">
+					<td v-for="column in columns" :key="column.key" v-bind="row.dictClass[column.key] ? { class: row.dictClass[column.key] } : {}">
+						{{ row[column.key] }}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="info-pagination">
+			<div>
+				<button class="btn-flt" @click="firstPage" :disabled="currentPage === 1"><<</button>
+				<button class="btn-flt" @click="prevPage" :disabled="currentPage === 1"><</button>
+				<span class="page-from-pages">{{ currentPage }} из {{ totalPages }}</span>
+				<button class="btn-flt" @click="nextPage" :disabled="currentPage === totalPages">></button>
+				<button class="btn-flt" @click="lastPage" :disabled="currentPage === totalPages">>></button>
+				<label class="mg-5" for="rowsPerPage">Записей на стр.:</label>
+				<select v-model="rowsPerPage" @change="normalizePage">
+					<option value=20>20</option>
+					<option value=50>50</option>
+					<option value=100>100</option>
+					<option value=1000>1000</option>
+					<option value=99999999>(все)</option>
+				</select>
+			</div>
 		</div>
 	</div>
 </template>
@@ -112,9 +114,12 @@
 <script>
 import { markRaw } from 'vue';
 export default {
-//  components: {
-//    modalComponent,
-//  },
+  async mounted() {
+    // Задержка на 2 секунды
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    this.iMounted = true;
+		this.$emit("child-mounted");
+  },
   props: {
   	table: String,
     data: Array,
@@ -123,6 +128,7 @@ export default {
   },
   data() {
     return {
+    	iMounted: false,
     	modalComponent: null,
     	isModalPushed: false,
       sortKey: '',
