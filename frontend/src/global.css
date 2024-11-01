@@ -1,0 +1,303 @@
+/* src/global.css */
+
+/* Основные переменные */
+
+
+:root {
+/*
+		TODO: Зелено-бирюзовая
+
+    --primary-color: #2c7a53;
+    --secondary-color: #5aa17b;
+    --third-color: #85cba4;
+    --light-background: #f3f6f4;
+    --border-color: #ccc;
+    --text-color: black;
+    --text-color-invert: white;
+    --table-head-background: #e6f1e0;
+    --table-head-text-color: black;
+    --highlight-color: #8ac7a9;
+    --selected-color: #6ea948;
+*/
+
+/*		TODO: Зеленая (классическая)*/
+
+		--primary-color: #2f744f;
+    --secondary-color: #75a57c;
+    --third-color: #97cb85;
+    --light-background: #f3f6f4;
+    --border-color: #ccc;
+    --text-color: black;
+    --text-color-invert: white;
+    --table-head-background: #d7d7d7; TODO:#f3f3f3;
+    --table-head-text-color: black;
+
+    --highlight-color: #92c78a;
+    --selected-color: #6ea948;
+
+/*
+		TODO: Сине-серая
+
+    --primary-color: #3d6b91;
+    --secondary-color: #97aabd;
+    --third-color: #7994b6;
+    --accent-color: #d77a61;
+    --light-background: #f2f5f7;
+    --border-color: #c4ced6;
+    --text-color: #2c2e3e;
+    --text-color-invert: #ffffff;
+    --table-head-background: #e3e8ef;
+    --table-head-text-color: black;
+
+    --highlight-color: #a3a9b6;
+    --selected-color: #5d7f97;
+*/
+    /* Шрифт и размеры */
+    --font-family: 'Arial', sans-serif;
+    --font-size-large: 1.1rem;
+    --font-size-medium: 1rem;
+    --font-size-small: 0.9rem;
+}
+
+/* Общие стили для всего приложения */
+body {
+    font-family: var(--font-family);
+    color: var(--text-color);
+    background-color: var(--light-background);
+		margin: 0;
+		padding: 0;
+		/*height: 100%;
+		width: 100%;*/
+}
+
+#main-page {
+    display:flex;
+}
+
+/* Боковая панель */
+#left-bar {
+    background-color: var(--primary-color);
+    color: var(--text-color-invert);
+    width: 165px;
+    height: 100vh;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+#left-bar ul {
+    padding-inline-start: 0;
+}
+#left-bar ul>li {
+    padding: 15px;
+    font-size: var(--font-size-large);
+    color: var(--text-color-invert);
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+#left-bar ul>li:hover {
+    background-color: var(--highlight-color);
+}
+#left-bar ul>li.selected {
+  	background-color: var(--secondary-color);
+  	/*border-right: 5px solid burlywood;*/
+}
+#caption {
+    height: 30px;
+    color: burlywood;
+    text-align: center;
+}
+
+
+#right-bar {
+		background-color: var(--light-background);
+		min-width: 300px;
+		flex-grow: 1;
+}
+
+/* Верхняя панель (Header) */
+#header {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    font-size: var(--font-size-large);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-link {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+}
+#header > ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 15px; /* Расстояние между элементами */
+}
+
+#header ul>li {
+  padding: 10px 15px;
+  cursor: pointer;
+  /*background-color: white;*/
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+#header ul>li:hover {
+  background-color: var(--third-color);
+}
+#header ul>li.selected {
+  	background-color: var(--primary-color);
+}
+
+.common-container {
+    display: inline-block;
+    max-height: calc(100vh - 140px);
+    overflow: auto;
+		background-color: white;
+		color: var(--text-color);
+    padding: 20px;
+    margin: 20px 20px 0 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    animation: fadeIn 0.1s ease forwards;
+}
+
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+/* Таблица (Table) */
+.table-container {
+
+}
+
+/* Фильтрация и пагинация */
+.filter-pagination {
+    display: flex;
+    flex-direction: column;
+    /*justify-content: space-between;*/
+}
+
+.mg-5 {
+    margin: 5px;
+}
+
+.info-pagination {
+    margin-top: 10px;
+}
+span.page-from-pages {
+    display: inline-block;
+    width: 100px;
+    text-align: center;
+}
+
+/* Кастомная таблица */
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.custom-table th, .custom-table td {
+  padding: 5px;
+  border: 1px solid var(--border-color);
+  text-align: left;
+}
+
+.custom-table th {
+  cursor: pointer;
+  background-color: var(--table-head-background);
+  color: var(--table-head-text-color);
+}
+
+.num-flt {
+		width: 100px;
+}
+
+.error {
+  background-color: #ffe5e5;
+  color: #c70101;
+}
+.warning {
+    background-color: #fff8c6;
+    color: #c76500;
+}
+.info {
+    background-color: #d7f3fb;
+    color: #003b4d;
+}
+.success {
+    background-color: #e2ffe2;
+    color: #007300;
+}
+.disabled {
+    background-color: #ebebeb;
+    color: #8f8e8e;
+}
+/* Кнопка (Button) */
+.button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: var(--font-size-medium);
+    cursor: pointer;
+    transition: background-color 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.button:hover {
+    background-color: var(--secondary-color);
+}
+
+.button:disabled {
+    background-color: var(--border-color);
+    cursor: not-allowed;
+    color: white;
+}
+
+/* Стили для всех выпадающих списков <select> */
+select {
+    padding: 3px;
+    font-size: var(--font-size-medium);
+    color: var(--text-color);
+    background-color: white;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    cursor: pointer;
+
+}
+
+input {
+    padding: 3px;
+    font-size: var(--font-size-medium);
+    color: var(--text-color);
+    background-color: white;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+}
+
+/* Дополнительные классы */
+.container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.card {
+    background-color: white;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}

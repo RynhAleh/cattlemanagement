@@ -1,5 +1,6 @@
 from fastapi.security import OAuth2PasswordRequestForm
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
+from typing import List
 from sqlalchemy.orm import Session
 from models import Cattle, CattleSchema, User, UserSchema
 from auth import create_access_token, create_user, verify_password, ACCESS_TOKEN_EXPIRE_MINUTES
@@ -13,10 +14,14 @@ def get_session_local():
     yield SessionLocal()
 
 
-@router.get("/api/cattle", response_model=list[CattleSchema])
-async def read_cattle(db: Session = Depends(get_session_local)):
-    cattle_records = db.query(Cattle).all()
-    return cattle_records
+@router.get("/api/cattle", response_model=List[CattleSchema])
+async def read_cattle(
+    limit: int = Query(None, ge=1),  # Минимум 1 запись
+    offset: int = Query(0, ge=0),  # Смещение не меньше 0
+    db: Session = Depends(get_session_local)
+):
+    cattle_records = db.query(Cattle).offset(offset).limit(limit).all()
+    return cattle_records if cattle_records else []
 
 
 @router.post("/api/cattle", response_model=CattleSchema)
