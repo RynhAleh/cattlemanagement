@@ -9,7 +9,7 @@
 			</li>
 		</ul>
 	</div>
-	<div :hidden="!cMounted" class="content">
+	<div :hidden="!cMounted"  class="content">
 		<div class="common-container">
 			<component :is="selectedSection" @child-mounted="cMounted = true"></component>
 		</div>
@@ -38,6 +38,7 @@ export default {
   },
   methods: {
     selectSection(section) {
+    	this.cMounted = false;
       this.selectedSection = section; // Прямое присвоение имени компонента
     },
   },

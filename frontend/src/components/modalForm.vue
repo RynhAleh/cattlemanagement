@@ -36,6 +36,7 @@ export default {
       this.$emit('close'); // Сигнализирует родителю о закрытии модального окна
     },
 		getInnerComponent() {
+			this.cMounted = false;
 			import(`./${this.table}/${this.table}Table.vue`).then((module) => {
 				this.innerComponent = markRaw(module.default);
 			});

@@ -118,7 +118,7 @@ export default {
     // Задержка на 2 секунды
     await new Promise(resolve => setTimeout(resolve, 2000));
     this.iMounted = true;
-		this.$emit("child-mounted");
+		this.$emit("child1-mounted");
   },
   props: {
   	table: String,
@@ -331,6 +331,7 @@ export default {
       return value !== '' && value !== undefined && value !== null;
     },
 		getModalComponent() {
+
 			import('./modalForm.vue').then((module) => {
 				this.modalComponent = markRaw(module.default);
 				this.isModalPushed = true;
