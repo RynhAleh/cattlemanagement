@@ -1,18 +1,20 @@
 <template>
+  <div class="wrapper">
   <div class="login-container">
-    <h2 style="color: var(--)">Вход в систему</h2>
+    <h2>Вход в систему</h2>
     <form @submit.prevent="handleLogin">
       <div>
         <label for="username">Имя пользователя:</label>
-        <input type="text" v-model="username" id="username" required autocomplete="username"/>
+        <input type="text" v-model="username" id="username" required autocomplete="username" />
       </div>
       <div>
         <label for="password">Пароль:</label>
-        <input type="password" v-model="password" id="password" required autocomplete="current-password"/>
+        <input type="password" v-model="password" id="password" required autocomplete="current-password" />
       </div>
       <button class="button" type="submit">Войти</button>
     </form>
-    <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+    <p v-if="errorMessage" style="color: red;">{{ errorMessage }}</p>
+  </div>
   </div>
 </template>
 
@@ -50,37 +52,33 @@ export default {
 </script>
 
 <style scoped>
+.wrapper {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .login-container {
-  max-width: 400px;
-  margin: auto;
+  width: 35vw;
+  min-width: 200px;
+  max-width: 350px;
+  margin: -15vh 0 0 0;
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: #f9f9f9;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.login-container:hover {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 h2 {
   text-align: center;
-  color: #333;
-  font-family: 'Arial', sans-serif;
-  margin-bottom: 20px;
+  color: var(--primary-color);
 }
 
 label {
   display: block;
   margin-bottom: 5px;
-  font-weight: bold;
-  color: #555;
 }
 
 input[type="text"],
@@ -89,9 +87,7 @@ input[type="password"] {
   padding: 10px;
   margin-bottom: 15px;
   border: 1px solid #ccc;
-  border-radius: 4px;
   font-size: 16px;
-  transition: border-color 0.3s ease;
 }
 
 input[type="text"]:focus,
@@ -99,26 +95,10 @@ input[type="password"]:focus {
   border-color: #007BFF;
   outline: none;
 }
-/*
-button {
+
+.button {
   width: 100%;
-  padding: 10px;
-  background-color: #007BFF;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
-button:hover {
-  background-color: #0056b3;
-}
-*/
-.error {
-  color: red;
-  text-align: center;
-  margin-top: 10px;
-}
+
 </style>

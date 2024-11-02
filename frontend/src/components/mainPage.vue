@@ -1,7 +1,7 @@
 <template>
   <div id="main-page">
     <div id="left-bar">
-      <h2 id="caption">Учет КРС 1.0</h2>
+      <h2 id="caption">КРС 1.0</h2>
       <ul>
         <li v-for="(value, key) in sections"
           :key="key"
