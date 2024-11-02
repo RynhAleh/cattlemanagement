@@ -1,6 +1,6 @@
 <template>
   <div class="login-container">
-    <h2>Вход в систему</h2>
+    <h2 style="color: var(--)">Вход в систему</h2>
     <form @submit.prevent="handleLogin">
       <div>
         <label for="username">Имя пользователя:</label>
@@ -10,7 +10,7 @@
         <label for="password">Пароль:</label>
         <input type="password" v-model="password" id="password" required autocomplete="current-password"/>
       </div>
-      <button type="submit">Войти</button>
+      <button class="button" type="submit">Войти</button>
     </form>
     <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
   </div>
@@ -99,7 +99,7 @@ input[type="password"]:focus {
   border-color: #007BFF;
   outline: none;
 }
-
+/*
 button {
   width: 100%;
   padding: 10px;
@@ -115,7 +115,7 @@ button {
 button:hover {
   background-color: #0056b3;
 }
-
+*/
 .error {
   color: red;
   text-align: center;

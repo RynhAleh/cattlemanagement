@@ -29,7 +29,7 @@ export default {
     	status: 0,
       ref: (() => {const date = new Date(); date.setDate(date.getDate() - 365*3); return date;})(),  // тек.дата - 3г
       tableData: [], // Начальное состояние пустое
-      limit: 1000, // Загрузим 1000 записей при первой загрузке
+      limit: 500, // Загрузим 1000 записей при первой загрузке
       offset: 0,
       tableColumns: [
         { key: 'id', label: 'ID', type: 'number' },
