@@ -1,7 +1,5 @@
 from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
-from sqlalchemy.orm import Session
-from models import User, UserSchema
 from typing import Optional
 import jwt
 from datetime import datetime, timedelta
@@ -31,11 +29,3 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
-
-
-def create_user(db: Session, user: UserSchema):
-    db_user = User(username=user.username, hashed_password=get_password_hash(user.password))
-    db.add(db_user)
-    db.commit()
-    db.refresh(db_user)
-    return db_user

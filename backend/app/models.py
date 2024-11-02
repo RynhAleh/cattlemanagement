@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from datetime import date
-from sqlalchemy import Column, Integer, String, Date
+from sqlalchemy import Column, Integer, Float, String, Date
 from database import Base
 from typing import Optional
 
@@ -21,6 +21,37 @@ class CattleSchema(BaseModel):
     color: str
     breed: str
     birthdate: date
+
+    class Config:
+        orm_mode = True
+
+
+class Milking(Base):
+    __tablename__ = "milking"
+
+    id = Column(Integer, primary_key=True, index=True)
+    date = Column(Date)
+    fio = Column(String)
+    cows = Column(Integer)
+    milk = Column(Float)
+    milk_e = Column(Float)
+    milk_h = Column(Float)
+    milk_1 = Column(Float)
+    fat = Column(Float)
+    prot = Column(Float)
+
+
+class MilkingSchema(BaseModel):
+    id: Optional[int] = 0
+    date: date
+    fio: str
+    cows: int
+    milk: float
+    milk_e: float
+    milk_h: float
+    milk_1: float
+    fat: float
+    prot: float
 
     class Config:
         orm_mode = True

@@ -1,6 +1,6 @@
 <template>
 
-	<div v-if="status > 0" class="table-container" style="min-width: 800px; max-width: 1500px;">
+	<div v-if="status > 0" class="table-container" style="min-width: 800px; max-width: 2000px;">
 		<baseTable :data="itemsWithClasses" :columns="tableColumns" :status="status" :table="table" @child-mounted="cMounted = true"/><!--child1-->
 	</div>
 </template>
@@ -21,18 +21,23 @@ export default {
     return {
     	iMounted: false,
     	cMounted: false,
-    	table: 'cattle',
+    	table: 'milking',
     	status: 0,
-      ref: (() => {const date = new Date(); date.setDate(date.getDate() - 365*3); return date;})(),  // тек.дата - 3г
-      tableData: [], // Начальное состояние пустое
-      limit: 500, // Загрузим 1000 записей при первой загрузке
+      tableData: [],
+      limit: 500,
       offset: 0,
       tableColumns: [
         { key: 'id', label: 'ID', type: 'number' },
-        { key: 'name', label: 'Имя или инд.номер', type: 'string' },
-        { key: 'color', label: 'Цвет/окрас, лет', type: 'string' },
-        { key: 'breed', label: 'Порода', type: 'string' },
-        { key: 'birthdate', label: 'Дата рождения', type: 'date' },
+        { key: 'date', label: 'Дата дойки', type: 'date' },
+        { key: 'fio', label: 'ФИО ответственного', type: 'string' },
+        { key: 'cows', label: 'Коров', type: 'number' },
+        { key: 'milk', label: 'Надоено, л', type: 'number' },
+        { key: 'milk_e', label: 'в т.ч.Экстра', type: 'number' },
+        { key: 'milk_h', label: 'в т.ч.Высший', type: 'number' },
+        { key: 'milk_1', label: 'в т.ч.Первый', type: 'number' },
+        { key: 'fat', label: 'Жирность,%', type: 'number' },
+        { key: 'prot', label: 'Белок,%', type: 'number' },
+
       ],
     };
   },
@@ -51,16 +56,17 @@ export default {
     itemsWithClasses() {
       return this.tableData.map(item => {
         const dictClass = {};
-				const dt = new Date(item.birthdate);
 
-        // Условия для классов
-        if (dt < this.ref) dictClass["_"] = "disabled";
-        if (item.color === 'рыжая') dictClass["color"] = "warning";
-        if (item.id % 7 === 0) dictClass["id"] = "info";
-        if (dt.getMonth() === 6) dictClass["birthdate"] = "success";
-        if (item.id % 3 === 0) dictClass["id"] = "success";
-        if (item.id % 7 === 0) dictClass["id"] = "disabled";
-
+				switch (true) {
+					case item.fat > 3.7:
+						dictClass["fat"] = "success";
+						break;
+					case item.fat >= 3.3 && item.fat < 3.5:
+						dictClass["fat"] = "warning";
+						break;
+					case item.fat < 3.3:
+						dictClass["fat"] = "error";
+				};
 
         return {
           ...item,
