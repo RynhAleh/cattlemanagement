@@ -2,11 +2,6 @@
   <div>
     <form @submit.prevent="submitForm">
       <div class="form-group">
-        <label for="id">ID</label>
-        <input type="number" id="id" v-model="formData.id" class="form-control" />
-      </div>
-
-      <div class="form-group">
         <label for="name">Имя или инд.номер</label>
         <input type="text" id="name" v-model="formData.name" class="form-control" />
       </div>
@@ -32,7 +27,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import apiClient from '@/axios';
 
 export default {
   data() {
@@ -46,12 +41,16 @@ export default {
       },
     };
   },
+  mounted() {
+		this.$emit("child-mounted");
+  },
+
   methods: {
     async submitForm() {
       try {
-        const response = await axios.post('/api/cattle', this.formData);
-        alert('Данные успешно отправлены!');
-        console.log(response.data);
+        const response = await apiClient.post('/cattle', this.formData);
+        this.$emit("update-data");
+        this.$emit("close");
       } catch (error) {
         console.error('Ошибка отправки данных:', error);
         alert('Произошла ошибка при отправке данных.');

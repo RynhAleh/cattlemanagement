@@ -1,7 +1,6 @@
 <template>
-
-	<div v-if="status > 0 || (false === true)" class="table-container" style="min-width: 800px; max-width: 1500px;">
-		<baseTable :data="itemsWithClasses" :columns="tableColumns" :status="status" :table="table" @child-mounted="cMounted = true"/><!--child1-->
+	<div v-if="status > 0" class="table-container" style="min-width: 800px; max-width: 1500px;">
+		<baseTable :data="itemsWithClasses" :columns="tableColumns" :status="status" :table="table" @child-mounted="cMounted = true" @update-data="() => loadData(table, true)"/><!--child1-->
 	</div>
 </template>
 
@@ -24,7 +23,6 @@ export default {
     	cMounted: false,
     	table: 'cattle',
     	status: 0,
-      ref: (() => {const date = new Date(); date.setDate(date.getDate() - 365*3); return date;})(),  // тек.дата - 3г
       tableData: [], // Начальное состояние пустое
       limit: 20, // Загрузим 1000 записей при первой загрузке
       offset: 0,
@@ -35,6 +33,7 @@ export default {
         { key: 'breed', label: 'Порода', type: 'string' },
         { key: 'birthdate', label: 'Дата рождения', type: 'date' },
       ],
+			ref: (() => {const date = new Date(); date.setDate(date.getDate() - 365*3); return date;})(),  // тек.дата - 3г
     };
   },
 	mounted() {
@@ -64,7 +63,8 @@ export default {
     }
   },
   methods: {
-    loadData(table) {  
+    loadData(table, init=false) {
+    	if (init) this.tableData = [];
 			dataLoader.loadTableData(table, this.limit, (data, status) => {
 				if (data) {
 					this.tableData = [...this.tableData, ...data];
@@ -73,11 +73,11 @@ export default {
 					console.error('Не удалось загрузить данные');
 				}
 			});
-    },  
+    },
   },
   beforeDestroy() {
     dataLoader.cancel();
-  },  
+  },
 
 };
 </script>

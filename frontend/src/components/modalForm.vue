@@ -6,7 +6,7 @@
 				<button class="close-button" @click="close">×</button>
 			</div>
 			<slot>
-				<component :is="innerComponent" @child-mounted="cMounted = true" />
+				<component :is="innerComponent" @child-mounted="cMounted = true" @close="close" @update-data="$emit('update-data')"/>
 			</slot>
 		</div>
 	</div>
@@ -24,6 +24,7 @@ export default {
 	},
   props: {
   	table: String,
+  	typeC: String,
   },
 	mounted() {
 		this.getInnerComponent();
@@ -37,7 +38,7 @@ export default {
     },
 		getInnerComponent() {
 			this.cMounted = false;
-			import(`./${this.table}/${this.table}Table.vue`).then((module) => {
+			import(`./${this.table}/${this.table}${this.typeC}.vue`).then((module) => {
 				this.innerComponent = markRaw(module.default);
 			});
 		},

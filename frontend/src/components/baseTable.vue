@@ -2,7 +2,7 @@
 	<div>
 		<div>
 			<button @click="getModalComponent">Добавить запись</button>
-			<component :is="modalComponent" v-if="isModalPushed" @close="modalComponent = null" :table="table" />
+			<component :is="modalComponent" v-if="isModalPushed" @close="modalComponent = null" @update-data="$emit('update-data')" :table="table" :typeC="typeC"  />
 		</div>
 		<div class="filter-pagination">
 			<div>
@@ -127,6 +127,7 @@ export default {
   data() {
     return {
     	iMounted: false,
+    	typeC: 'Form',
     	modalComponent: null,
     	isModalPushed: false,
       sortKey: '',
@@ -184,7 +185,6 @@ export default {
   methods: {
     // Фильтрация данных
     filterData() {
-
 			let filterConditions = []; // массив для накопления условий фильтрации
 
 			// Генерация условий фильтрации
@@ -276,7 +276,10 @@ export default {
     },
     // Сортировка данных
     sortData(key, preserveOrder = false) {
-      if (!preserveOrder) {
+      if (preserveOrder) {
+				this.filteredData = this.data.slice(); // Возвращаем к исходным данным
+				this.filterData(); // Применяем фильтр снова
+      } else {
         if (this.sortKey === key) {
           if (this.sortOrder === '') {
             this.sortOrder = 'asc'; // Первое нажатие - по возрастанию
