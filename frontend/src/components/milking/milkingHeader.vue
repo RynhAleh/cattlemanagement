@@ -9,7 +9,7 @@
 			</li>
 		</ul>
 	</div>
-	<div :hidden="!cMounted"  class="content">
+	<div :hidden="!cMounted && (true || false)"  class="content" mode="out-in">
 		<div class="common-container">
 			<component :is="selectedSection" @child-mounted="cMounted = true"></component>
 		</div>

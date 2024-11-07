@@ -1,6 +1,6 @@
 <template>
 
-	<div v-if="status > 0 || (false === true)" class="table-container" style="min-width: 800px; max-width: 1500px;">
+	<div v-if="status > 0 || (true === false)" class="table-container" style="min-width: 800px; max-width: 1500px;">
 		<baseTable :data="itemsWithClasses" :columns="tableColumns" :status="status" :table="table" @child-mounted="cMounted = true"/><!--child1-->
 	</div>
 </template>
@@ -13,7 +13,6 @@ export default {
 	watch: {
 		iMounted(n, o) {if(n && this.cMounted) this.$emit("child-mounted");},
 		cMounted(n, o) {if(n && this.iMounted) this.$emit("child-mounted");},
-    table(newTable) {this.loadData(newTable);},
 	},
   components: {
     baseTable,
@@ -26,7 +25,7 @@ export default {
     	status: 0,
       ref: (() => {const date = new Date(); date.setDate(date.getDate() - 365*3); return date;})(),  // тек.дата - 3г
       tableData: [], // Начальное состояние пустое
-      limit: 20, // Загрузим 1000 записей при первой загрузке
+      limit: 5, // Загрузим 1000 записей при первой загрузке
       offset: 0,
       tableColumns: [
         { key: 'id', label: 'ID', type: 'number' },
@@ -38,7 +37,14 @@ export default {
     };
   },
 	mounted() {
-    this.loadData(this.table);
+		dataLoader.loadTableData(this.table, this.limit, (data, status) => {
+			if (data) {
+				this.tableData = [...this.tableData, ...data];
+				this.status = status;
+			} else {
+				console.error('Не удалось загрузить данные');
+			}
+		});
 		this.iMounted = true;
   },
   computed: {
@@ -62,18 +68,6 @@ export default {
         };
       });
     }
-  },
-  methods: {
-    loadData(table) {  
-			dataLoader.loadTableData(table, this.limit, (data, status) => {
-				if (data) {
-					this.tableData = [...this.tableData, ...data];
-					this.status = status;
-				} else {
-					console.error('Не удалось загрузить данные');
-				}
-			});
-    },  
   },
   beforeDestroy() {
     dataLoader.cancel();

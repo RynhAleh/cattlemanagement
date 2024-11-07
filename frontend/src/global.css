@@ -78,7 +78,7 @@ body {
 #left-bar {
     background-color: var(--primary-color);
     color: var(--text-color-invert);
-    width: 165px;
+    /*width: 165px;*/
     height: 100vh;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
@@ -165,13 +165,15 @@ body {
     margin: 20px 20px 0 20px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    animation: fadeIn 0.15s ease forwards;
 }
-
 
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
+
 /* Таблица (Table) */
 .table-container {
 
